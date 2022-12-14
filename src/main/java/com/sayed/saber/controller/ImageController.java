@@ -2,6 +2,7 @@ package com.sayed.saber.controller;
 
 
 import com.sayed.saber.dto.ImageDto;
+import com.sayed.saber.response.ImageResponse;
 import com.sayed.saber.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -16,7 +17,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class ImageController {
 
-   private final ImageService service ;
+   private final ImageService imageService;
 
     @PostMapping(value = "/save",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> saveUser(
@@ -25,7 +26,13 @@ public class ImageController {
                                            @RequestParam("category") String category) throws IOException {
 
 
-     return ResponseEntity.ok().body(service.saveUser(new ImageDto(description,category) ,multipartFile));
+     return ResponseEntity.ok().body(imageService.saveUser(new ImageDto(description,category) ,multipartFile));
+    }
+
+    @GetMapping("/all-images")
+    public ResponseEntity<ImageResponse> getAllImages() throws Exception {
+
+        return  ResponseEntity.ok().body( imageService.getAllImages());
     }
 
 

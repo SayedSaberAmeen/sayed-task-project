@@ -5,6 +5,7 @@ import com.sayed.saber.config.FileUploadConfig;
 import com.sayed.saber.dto.ImageDto;
 import com.sayed.saber.entity.ImageEntity;
 import com.sayed.saber.repository.ImageRepository;
+import com.sayed.saber.response.ImageResponse;
 import com.sayed.saber.util.GeneralUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -47,12 +47,16 @@ public class ImageService {
         return "image added successfully";
     }
 
-    public List<ImageDto> getAllImages() {
+    public ImageResponse getAllImages() {
 
-        if (GeneralUtil.isAdministrativeUser())
-            return imageRepository.findAll().stream().map(ImageDto::new).toList();
+        ImageResponse response = new ImageResponse();
 
-      return null;
+        response.setMessage(GeneralUtil.isAdministrativeUser().getValue());
+
+        if (GeneralUtil.isAdministrativeUser() == GeneralUtil.Messages.ADMIN)
+            response.setAllImages(imageRepository.findAll().stream().map(ImageDto::new).toList());
+
+        return response;
     }
 
 }
