@@ -29,9 +29,9 @@ public class UserService {
                 loginDto.getPassword());
 
         if (loginUser.isPresent()) {
-            GeneralUtil.loginUser.put("userName", loginUser.get().getUsername());
+            GeneralUtil.loggedInUser.put("username", loginUser.get().getUsername());
 
-            return loginUser.get().getUsername() + "logged in successfully";
+            return loginUser.get().getUsername() + " logged in successfully";
         }
 
         return "username or password in incorrect";
